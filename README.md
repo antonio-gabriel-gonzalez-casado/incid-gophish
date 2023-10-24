@@ -32,6 +32,7 @@
 - Restart proxy to reflect changes
     - `docker exec -it gophish-proxy service nginx restart`
 - GoPhish admin UI is running on `localhost` & `localhost:3333`
+    - Important: Once Gophish is started, you must access the logs of the docker container that created it and look for the initial administrator password.
 - Phishing server is running on `localhost:8080`
 - Adminer UI is running on `localhost:9000`
 

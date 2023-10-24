@@ -3,16 +3,18 @@
 # configure postfix
 
 function setup_conf_and_secret {
-    postconf -e 'smtp_tls_CAfile = /etc/ssl/certs/ca-bundle.trust.crt'
+    postconf -e 'smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt'
     postconf -e "relayhost = [$MTP_RELAY]:$MTP_PORT"
+    postconf -e 'smtp_use_tls = yes'
     postconf -e 'smtp_sasl_auth_enable = yes'
-    postconf -e 'smtp_sasl_password_maps = hash:/etc/postfix/relay_passwd'
+    postconf -e 'smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd'
     postconf -e 'smtp_sasl_security_options = noanonymous'
     postconf -e 'smtp_tls_security_level = encrypt'
     postconf -e 'mynetworks = 127.0.0.0/8 172.16.0.0/12 172.17.0.0/16 10.0.0.0/8'
 
-    echo "$MTP_RELAY   $MTP_USER:$MTP_PASS" > /etc/postfix/relay_passwd
-    postmap /etc/postfix/relay_passwd
+    echo "[$MTP_RELAY]:$MTP_PORT   $MTP_USER:$MTP_PASS" > /etc/postfix/sasl_passwd
+    postmap /etc/postfix/sasl_passwd
+    chmod 0600 /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
 }
 
 if [ -z "$MTP_INTERFACES" ]; then
