@@ -55,4 +55,5 @@ if [ $(grep -c "^#header_checks" /etc/postfix/main.cf) -eq 1 ]; then
         postmap /etc/postfix/header_checks
 fi
 
+
 newaliases

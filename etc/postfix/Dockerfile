@@ -10,12 +10,13 @@ VOLUME ["/var/log", "/var/spool/postfix"]
 
 # Actualizar e instalar paquetes necesarios
 RUN apt-get update && \
-    apt-get install -y telnet dnsutils vim python3 python3-pip postfix sasl2-bin libsasl2-modules mailutils && \
+    apt-get install -y telnet dnsutils vim python3.6 python3-pip postfix sasl2-bin libsasl2-modules mailutils && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Instalar chaperone usando pip. Importante instalar la versión 5.2 de PyYAML porque las recientes tienen incompatibilidades.
-RUN python3 -m pip install chaperone PyYAML==5.2
+# Instalar chaperone usando pip. 
+# Importante instalar estas versiones porque hay incompatibilidades con las python3.6 en las versiones recientes
+RUN python3.6 -m pip install chaperone==0.3.9 PyYAML==5.2 voluptuous==0.11.7
 
 # Copiar la configuración de chaperone y el script setup.sh
 RUN mkdir -p /etc/chaperone.d
