@@ -26,9 +26,9 @@
 - Create your env file
     - `cp etc/env.dist .env`
 - Build containers
-    -  `make build`
+    -  `docker compose build`
 - Run GoPhish
-    - `make up`
+    - `docker compose up -d`
 - Restart proxy to reflect changes
     - `docker exec -it gophish-proxy service nginx restart`
 - GoPhish admin UI is running on `localhost` & `localhost:3333`
@@ -38,41 +38,7 @@
 
 ### Stop and Remove project containers
 - Stop all containers
-    - `make stop`
+    - `docker compose stop`
 - Remove all containers
-    `make down`
+    `docker compose down`
 
-## Setup on a Production Server
-
-### Initial Setup
-- Clone this repo
-- Create your env file in to the root directory
-    - `cp etc/env.dist .env`
-- Change the `server_name` in `etc/nginx/config.conf` from `127.0.0.1` to **your domain name**
-- Update your `.env` file to a more secure database password
-- Install **Make**
-    - `sudo apt install make`
-
-### Run GoPhish on a Production Server
-- Install and update required packages
-    - `make init`
-- Follow on-screen prompts
-- Restart Server in order for changes to take effect
-- Build containers
-    - `cd gophish-prod`
-    - `make build`
-- Run GoPhish
-    - `make up`
-
-#### Generate SSL Certificates using Let's Encrypt
-- Shell into the Nginx container:
-    - `docker exec -it gophish-proxy bash`
-- Run Certbot:
-    - `certbot --nginx`
-- Follow on-screen prompts
-- Restart Nginx service
-    - `service nginx restart`
-    - **Note:** the shell will close because this command restarts the container
-- Restart the Nginx container
-    - `make up`
-- Visit your domain to access the GoPhish admin UI
